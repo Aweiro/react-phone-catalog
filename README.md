@@ -14,7 +14,7 @@ It simulates a real e-commerce store experience with a cart, favorites, and prod
 
 ## 🎨 Design Reference
 
-Based on the [Mate Academy Phone Catalog Design]([https://www.figma.com/file/iWx9uGVArTifmH7ZbDZoRg/Phone-catalog?type=design](https://www.figma.com/file/BUusqCIMAWALqfBahnyIiH/Phone-catalog-(V2)-Original-Dark)).
+Based on the [Mate Academy Phone Catalog Design](https://www.figma.com/file/BUusqCIMAWALqfBahnyIiH/Phone-catalog-(V2)-Original-Dark)
 
 ---
 
@@ -38,3 +38,5 @@ Follow these steps to run the project locally:
 ```bash
 git clone https://github.com/aweiro/react-phone-catalog.git
 cd react-phone-catalog
+npm install
+npm start
