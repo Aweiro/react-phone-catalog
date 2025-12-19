@@ -7,6 +7,7 @@ export interface Product {
   id: string;
   category: string;
   itemId: string;
+  productId: string;
   namespaceId: string;
   name: string;
   capacityAvailable: string[];
@@ -24,6 +25,7 @@ export interface Product {
   camera: string;
   zoom: string;
   cell: string[];
+	isActive: boolean;
 
   image: string;
   price: number;

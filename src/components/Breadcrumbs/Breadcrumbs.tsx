@@ -1,15 +1,18 @@
-import React from 'react';
+'use client'; // потрібне для клієнтського рендера
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import styles from './Breadcrumbs.module.scss';
-import { Link, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
+import React from 'react';
 
 interface Props {
   lastTitle?: string;
 }
 
 export const Breadcrumbs = ({ lastTitle }: Props) => {
-  const { pathname } = useLocation();
-  const pathnameArr = ['/', ...pathname.split('/').filter(el => el)];
+  const pathname = usePathname() || '/';
+  const pathnameArr = ['/', ...pathname.split('/').filter((el) => el)];
 
   if (lastTitle) {
     pathnameArr.pop();
@@ -24,10 +27,7 @@ export const Breadcrumbs = ({ lastTitle }: Props) => {
 
         if (i === pathnameArr.length - 1) {
           return (
-            <p
-              key={i}
-              className={`${styles.breadcrumbs__item} ${styles.active}`}
-            >
+            <p key={i} className={`${styles.breadcrumbs__item} ${styles.active}`}>
               {normalizePath}
             </p>
           );
@@ -35,23 +35,19 @@ export const Breadcrumbs = ({ lastTitle }: Props) => {
 
         const pathSegments = lastTitle ? pathnameArr.slice(0, -1) : pathnameArr;
 
-        const linkPath = isHome
-          ? '/'
-          : '/' + pathSegments.slice(1, i + 1).join('/');
+        const linkPath = isHome ? '/' : '/' + pathSegments.slice(1, i + 1).join('/');
 
         return (
           <React.Fragment key={i}>
             <Link
-              to={linkPath}
+              href={linkPath}
               className={classNames(styles.breadcrumbs__item, {
                 'icon icon--home': isHome,
               })}
             >
               {!isHome && normalizePath}
             </Link>
-            <span
-              className={`icon icon--arrow-right ${styles.breadcrumbs__arrow}`}
-            />
+            <span className={`icon icon--arrow-right ${styles.breadcrumbs__arrow}`} />
           </React.Fragment>
         );
       })}

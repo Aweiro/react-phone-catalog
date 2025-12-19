@@ -1,4 +1,7 @@
-import { NavLink } from 'react-router-dom';
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import classNames from 'classnames';
 import styles from './Navigation.module.scss';
 import React, { useContext } from 'react';
@@ -9,23 +12,23 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const NavItem = ({ to, children, ...props }: Props) => {
+export const NavItem = ({ to, children }: Props) => {
   const { setShowNavigation } = useContext(HeaderContext);
+  const pathname = usePathname();
+  // const isActive = pathname === to;
+  const isActive = pathname === to || (to !== '/' && pathname?.startsWith(`${to}/`));
 
   return (
     <li className={`uppercase-text ${styles['nav__links--item']}`}>
-      <NavLink
-        to={to}
-        className={({ isActive }) =>
-          classNames(styles['nav__links--link'], {
-            [styles.active]: isActive,
-          })
-        }
+      <Link
+        href={to}
+        className={classNames(styles['nav__links--link'], {
+          [styles.active]: isActive,
+        })}
         onClick={() => setShowNavigation(false)}
-        {...props}
       >
         {children}
-      </NavLink>
+      </Link>
     </li>
   );
 };

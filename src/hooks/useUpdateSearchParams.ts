@@ -1,6 +1,9 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getSearchWith, SearchParams } from '../utils/searchHelper';
+import { useRouter } from 'next/router';
 import { SearchLabelsType } from '../types/SearchLabelsType';
+
+export type SearchParams = {
+  [key: string]: string | string[] | null;
+};
 
 function normalizeParams(params: SearchParams) {
   const newParams = { ...params };
@@ -13,17 +16,26 @@ function normalizeParams(params: SearchParams) {
 }
 
 export function useUpdateSearchParams() {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const router = useRouter();
 
   const updateSearch = (params: SearchParams) => {
     const newParams = normalizeParams(params);
 
-    navigate(
-      { search: getSearchWith(searchParams, newParams) },
+    const filteredQuery: Record<string, string | string[]> = {};
+
+    Object.entries({ ...router.query, ...newParams }).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== '') {
+        filteredQuery[key] = value;
+      }
+    });
+
+    router.push(
       {
-        state: { keepScroll: true },
+        pathname: router.pathname,
+        query: filteredQuery,
       },
+      undefined,
+      { scroll: false },
     );
   };
 

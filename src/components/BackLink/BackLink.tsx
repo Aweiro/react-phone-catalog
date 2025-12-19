@@ -1,21 +1,27 @@
-import React from 'react';
-import { Link, LinkProps, useLocation } from 'react-router-dom';
-import { ProductsType } from '../../types/ProductsType';
-import styles from './BackLink.module.scss';
+'use client';
 
-type Props = Omit<LinkProps, 'to'> & {
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import styles from './BackLink.module.scss';
+import { ProductsType } from '@/types/ProductsType';
+
+type Props = {
   category?: ProductsType | '/';
 };
 
-export const BackLink = ({ category = '/', ...props }: Props) => {
-  const location = useLocation();
+export const BackLink = ({ category = '/' }: Props) => {
+  const params = useSearchParams();
+
+  const rawFrom = params?.get('from');
+
+  // Якщо в URL є from= → повертаємось туди
+  // Якщо нема → повертаємось у категорію
+  const backHref = rawFrom
+    ? decodeURIComponent(rawFrom)
+    : `/${category}`;
 
   return (
-    <Link
-      to={location.state?.from || `/${category}`}
-      className={`small-text ${styles['back-link']}`}
-      {...props}
-    >
+    <Link href={backHref} className={`small-text ${styles['back-link']}`}>
       <span className="icon icon--arrow-left" />
       <p>Back</p>
     </Link>

@@ -5,13 +5,11 @@ import banner2 from './../../assets/img/slider/slider-image-2.jpg';
 import banner3 from './../../assets/img/slider/slider-image-3.jpg';
 import classNames from 'classnames';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Slider from 'react-slick';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import 'slick-carousel/slick/slick.css';
-// import { Button } from '../Button';
 import { ButtonType } from '../../types/ButtonType';
 import { Button } from '../Button';
+import Image from 'next/image';
 
 const bannerImages = [banner1, banner2, banner3];
 
@@ -46,8 +44,8 @@ export const BannerSlider = () => {
           {...settings}
         >
           {bannerImages.map(image => (
-            <img
-              key={image}
+            <Image
+              key={image.src}
               className={styles['banner-slider__slider-image']}
               src={image}
               alt="slide"
@@ -64,7 +62,7 @@ export const BannerSlider = () => {
         {bannerImages.map((image, i) => {
           return (
             <li
-              key={image}
+              key={image.src}
               className={classNames(styles['banner-slider__button'], {
                 [styles['banner-slider__button--active']]: bannerId === i,
               })}

@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
-// import { Navigation } from './components/Navigation/Navigation';
+'use client';
+
+import { useContext } from 'react';
 import styles from './TopBar.module.scss';
-import { Link } from 'react-router-dom';
-import { HeaderContext } from '../Header/context/HeaderContext';
+import Link from 'next/link';
 import classNames from 'classnames';
+import { HeaderContext } from '../Header/context/HeaderContext';
 import logo from '../../../../assets/img/Logo.svg';
+import Image from 'next/image';
 
 export const TopBar = () => {
   const { showNavigation, setShowNavigation } = useContext(HeaderContext);
@@ -13,8 +15,8 @@ export const TopBar = () => {
     <div className={styles['top-bar']}>
       <div className={styles['top-bar__wrapper']}>
         <div className={styles['top-bar__left-block']}>
-          <Link to="/" className={styles['top-bar__logo']}>
-            <img src={logo} alt="logo" />
+          <Link href="/" className={styles['top-bar__logo']}>
+            <Image src={logo} alt="logo" />
           </Link>
         </div>
 
@@ -23,10 +25,10 @@ export const TopBar = () => {
             className={classNames(
               'icon',
               { 'icon--menu': !showNavigation },
-              { 'icon--close': showNavigation },
+              { 'icon--close': showNavigation }
             )}
             onClick={() => setShowNavigation(prev => !prev)}
-          ></button>
+          />
         </div>
       </div>
     </div>

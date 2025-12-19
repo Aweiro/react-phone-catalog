@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import styles from './Dropdown.module.scss';
-import { useSearchParams } from 'react-router-dom';
 import { useUpdateSearchParams } from '../../hooks/useUpdateSearchParams';
 import { SearchLabelsType } from '../../types/SearchLabelsType';
+import { useSearchParams } from 'next/navigation';
 
 interface Props<T extends string> {
   className?: string;
@@ -21,11 +21,11 @@ export const Dropdown = <T extends string>({
   className = '',
   ...props
 }: Props<T>) => {
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const [showMenu, setShowMenu] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const updateSearch = useUpdateSearchParams();
-  const paramsKey = searchParams.get(searchLabel);
+  const paramsKey = searchParams?.get(searchLabel);
   const validDefault = defaultValue !== undefined ? defaultValue : values[0];
   const initialLabel = paramsKey ? paramsKey : validDefault;
 

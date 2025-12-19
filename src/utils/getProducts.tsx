@@ -1,11 +1,32 @@
+// src/utils/getProducts.ts
 import { Product } from '../types/ProductType';
 
 function wait(delay: number) {
-  return new Promise(resolve => setTimeout(resolve, delay));
+  return new Promise((resolve) => setTimeout(resolve, delay));
 }
 
 export async function getProducts(api: string): Promise<Product[]> {
-  return wait(500)
-    .then(() => fetch(`./api/${api}.json`))
-    .then(response => response.json());
+  await wait(500);
+
+  try {
+    // const response = await fetch(`/api/${api}.json`); 
+    const response = await fetch(`/api/products?category=${api}`);
+
+    if (!response.ok) {
+      console.error(`❌ File not found: /api/${api} (status ${response.status})`);
+      return [];
+    }
+
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      console.error(`❌ Invalid content-type: ${contentType}`);
+      return [];
+    }
+
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+  } catch (err) {
+    console.error('❌ Failed to parse JSON:', err);
+    return [];
+  }
 }

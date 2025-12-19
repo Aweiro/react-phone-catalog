@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import styles from './Header.module.scss';
 import { Navigation } from './components/Navigation';
 import { TopBar } from '../TopBar';
